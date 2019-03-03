@@ -1,0 +1,8 @@
+[package]
+name = "rust_rsa"
+version = "0.1.0"
+authors = ["hosszub"]
+edition = "2018"
+
+[dependencies]
+num-integer = "0.1"
