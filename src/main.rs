@@ -1,11 +1,38 @@
 use num_integer::gcd;
+use std::io;
 
 fn main() {
     println!("Welcome to my small RSA coder / decoder");
-    println!("The functionality is implemented as a heap of functions.");
     println!("Please check the tests below to see how they work");
+    println!("This interactive way of running the program is for debug purposes.");
+    println!("---");
+    println!("Please input the following integers:p, q, k, message");
+
+    let _p = read_number_from_user();
+    let _q = read_number_from_user();
+    let _k = read_number_from_user();
+    let _data = read_number_from_user();
+
+    let _phi = calculate_phi(_p, _q);
+    let _e = calculate_e(_phi);
+    let _d = calculate_d(_k, _phi, _e);
+    let _n = _p * _q;
+
+    let _encrypted_data = encrypt_data(_data, _e, _n);
+    let _decrypted_data = decrypt_data(_encrypted_data, _d, _n.into());
+
+    println!("Encrypted data:{}", _encrypted_data);
+    println!("Decrypted data:{}", _decrypted_data);
 }
 
+fn read_number_from_user() -> u32 {
+    let mut n = String::new();
+    io::stdin()
+        .read_line(&mut n)
+        .expect("failed to read input.");
+    let _n: u32 = n.trim().parse().expect("invalid input");
+    _n
+}
 fn calculate_e(_phi: u32) -> u32 {
     let mut _e = 2;
     while _e < _phi {
