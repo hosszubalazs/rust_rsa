@@ -62,105 +62,112 @@ fn decrypt_data(_encrypted_data: u32, _decrypt: u32, _n: u64) -> u64 {
     _pow % _n
 }
 
-#[test]
-fn test_encrypt_decrypt_0() {
-    // Select two primes, P and Q
-    // For now they have to be very little, otherwise decryption fails. This is demonstrated by tests.
-    let _p = 3;
-    let _q = 5;
-    // FIXME what is a good strategy to choose k?
-    let _k = 4;
-    // The data we want to send
-    let _data = 12;
+#[cfg(test)]
+mod tests {
+    // The logic is organized into private functions outside of the test module.
+    // To be able to access them, this use is needed.
+    use super::*;
 
-    // Calculate modulus 'n'
-    let _n = _p * _q;
-    // Calculate the totient:
-    // the number of positive integers smaller than n which are coprime to n
-    let _phi = calculate_phi(_p, _q);
-    //Calculate the public and private key exponents
-    let _e = calculate_e(_phi);
-    let _d = calculate_d(_k, _phi, _e);
+    #[test]
+    fn test_encrypt_decrypt_0() {
+        // Select two primes, P and Q
+        // For now they have to be very little, otherwise decryption fails. This is demonstrated by tests.
+        let _p = 3;
+        let _q = 5;
+        // FIXME what is a good strategy to choose k?
+        let _k = 4;
+        // The data we want to send
+        let _data = 12;
 
-    let _encrypted_data = encrypt_data(_data, _e, _n);
-    let _decrypted_data = decrypt_data(_encrypted_data, _d, _n.into());
+        // Calculate modulus 'n'
+        let _n = _p * _q;
+        // Calculate the totient:
+        // the number of positive integers smaller than n which are coprime to n
+        let _phi = calculate_phi(_p, _q);
+        //Calculate the public and private key exponents
+        let _e = calculate_e(_phi);
+        let _d = calculate_d(_k, _phi, _e);
 
-    assert_eq!(3, _encrypted_data);
-    assert_eq!(12, _decrypted_data);
-}
+        let _encrypted_data = encrypt_data(_data, _e, _n);
+        let _decrypted_data = decrypt_data(_encrypted_data, _d, _n.into());
 
-#[test]
-fn test_encrypt_decrypt_1() {
-    let _p = 3;
-    let _q = 7;
-    let _k = 7;
-    let _data = 12;
+        assert_eq!(3, _encrypted_data);
+        assert_eq!(12, _decrypted_data);
+    }
 
-    let _phi = calculate_phi(_p, _q);
-    let _e = calculate_e(_phi);
-    let _d = calculate_d(_k, _phi, _e);
-    let _n = _p * _q;
+    #[test]
+    fn test_encrypt_decrypt_1() {
+        let _p = 3;
+        let _q = 7;
+        let _k = 7;
+        let _data = 12;
 
-    let _encrypted_data = encrypt_data(_data, _e, _n);
-    let _decrypted_data = decrypt_data(_encrypted_data, _d, _n.into());
+        let _phi = calculate_phi(_p, _q);
+        let _e = calculate_e(_phi);
+        let _d = calculate_d(_k, _phi, _e);
+        let _n = _p * _q;
 
-    assert_eq!(3, _encrypted_data);
-    assert_eq!(12, _decrypted_data);
-}
+        let _encrypted_data = encrypt_data(_data, _e, _n);
+        let _decrypted_data = decrypt_data(_encrypted_data, _d, _n.into());
 
-#[test]
-fn test_calculate_e() {
-    assert_eq!(3, calculate_e(8));
-}
+        assert_eq!(3, _encrypted_data);
+        assert_eq!(12, _decrypted_data);
+    }
 
-#[test]
-fn test_calculate_phi_0() {
-    assert_eq!(8, calculate_phi(3, 5));
-}
-#[test]
-fn test_calculate_phi_1() {
-    assert_eq!(12, calculate_phi(3, 7));
-}
-#[test]
-fn test_calculate_phi_2() {
-    assert_eq!(24, calculate_phi(5, 7));
-}
+    #[test]
+    fn test_calculate_e() {
+        assert_eq!(3, calculate_e(8));
+    }
 
-#[test]
-fn test_calculate_e_d() {
-    let _phi = 8;
-    let _e = calculate_e(_phi);
-    assert_eq!(3, _e);
-    let _d = calculate_d(2, _phi, _e);
-    assert_eq!(5, _d);
-}
+    #[test]
+    fn test_calculate_phi_0() {
+        assert_eq!(8, calculate_phi(3, 5));
+    }
+    #[test]
+    fn test_calculate_phi_1() {
+        assert_eq!(12, calculate_phi(3, 7));
+    }
+    #[test]
+    fn test_calculate_phi_2() {
+        assert_eq!(24, calculate_phi(5, 7));
+    }
 
-#[test]
-fn test_calculate_d() {
-    assert_eq!(5, calculate_d(2, 8, 3));
-}
+    #[test]
+    fn test_calculate_e_d() {
+        let _phi = 8;
+        let _e = calculate_e(_phi);
+        assert_eq!(3, _e);
+        let _d = calculate_d(2, _phi, _e);
+        assert_eq!(5, _d);
+    }
 
-#[test]
-fn test_encrypt() {
-    assert_eq!(3, encrypt_data(12, 5, 21));
-}
+    #[test]
+    fn test_calculate_d() {
+        assert_eq!(5, calculate_d(2, 8, 3));
+    }
 
-#[test]
-fn test_decrypt() {
-    assert_eq!(12, decrypt_data(3, 5, 21));
-}
+    #[test]
+    fn test_encrypt() {
+        assert_eq!(3, encrypt_data(12, 5, 21));
+    }
 
-#[test]
-#[should_panic]
-fn decrypter_dies_on_large_numbers() {
-    //thread '...' panicked at 'attempt to multiply with overflow'
-    //p,q = 53, 59
-    assert_eq!(12, decrypt_data(1728, 2011, 3127));
-}
+    #[test]
+    fn test_decrypt() {
+        assert_eq!(12, decrypt_data(3, 5, 21));
+    }
 
-#[test]
-#[should_panic]
-fn decrypter_dies_on_notsolarge_numbers() {
-    //p, q = 5, 7
-    assert_eq!(12, decrypt_data(17, 9, 35));
+    #[test]
+    #[should_panic]
+    fn decrypter_dies_on_large_numbers() {
+        //thread '...' panicked at 'attempt to multiply with overflow'
+        //p,q = 53, 59
+        assert_eq!(12, decrypt_data(1728, 2011, 3127));
+    }
+
+    #[test]
+    #[should_panic]
+    fn decrypter_dies_on_notsolarge_numbers() {
+        //p, q = 5, 7
+        assert_eq!(12, decrypt_data(17, 9, 35));
+    }
 }
