@@ -1,5 +1,7 @@
 # RSA key generation in Rust
 
+[![Build Status](https://travis-ci.org/hosszubalazs/rust_rsa.svg?branch=master)](https://travis-ci.org/hosszubalazs/rust_rsa)
+
 Example project for creating assymetric key cyphers in Rust based on the RSA algorithm.
 
 The solution is heavily under development and is meant for educational purposes only. (mostly for myself) The current solution barely works for very low prime numbers.
