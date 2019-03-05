@@ -144,6 +144,25 @@ mod tests {
     }
 
     #[test]
+    fn test_encrypt_decrypt_3() {
+        let p = 53;
+        let q = 59;
+        let k = 8;
+        let data = 17;
+
+        let phi = calculate_phi(p, q);
+        let e = calculate_e(phi);
+        let d = calculate_d(k, phi, e);
+        let n = p * q;
+
+        let encrypted_data: u64 = encrypt_data(data, e, n).into();
+        let decrypted_data = decrypt_data(encrypted_data, d, n.into());
+
+        assert_eq!(1786, encrypted_data);
+        assert_eq!(17, decrypted_data);
+    }
+
+    #[test]
     fn test_calculate_e() {
         assert_eq!(3, calculate_e(8));
     }
