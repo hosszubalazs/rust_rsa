@@ -8,21 +8,22 @@ fn main() {
     println!("---");
     println!("Please input the following integers:p, q, k, message");
 
-    let _p = read_number_from_user();
-    let _q = read_number_from_user();
-    let _k = read_number_from_user();
-    let _data = read_number_from_user();
+    let p = read_number_from_user();
 
-    let _phi = calculate_phi(_p, _q);
-    let _e = calculate_e(_phi);
-    let _d = calculate_d(_k, _phi, _e);
-    let _n = _p * _q;
+    let q = read_number_from_user();
+    let k = read_number_from_user();
+    let data = read_number_from_user();
 
-    let _encrypted_data = encrypt_data(_data, _e, _n);
-    let _decrypted_data = decrypt_data(_encrypted_data, _d, _n.into());
+    let phi = calculate_phi(p, q);
+    let e = calculate_e(phi);
+    let d = calculate_d(k, phi, e);
+    let n = p * q;
 
-    println!("Encrypted data:{}", _encrypted_data);
-    println!("Decrypted data:{}", _decrypted_data);
+    let encrypted_data = encrypt_data(data, e, n);
+    let decrypted_data = decrypt_data(encrypted_data, d, n.into());
+
+    println!("Encrypted data:{}", encrypted_data);
+    println!("Decrypted data:{}", decrypted_data);
 }
 
 fn read_number_from_user() -> u32 {
@@ -30,36 +31,36 @@ fn read_number_from_user() -> u32 {
     io::stdin()
         .read_line(&mut n)
         .expect("failed to read input.");
-    let _n: u32 = n.trim().parse().expect("invalid input");
-    _n
+    let n: u32 = n.trim().parse().expect("invalid input");
+    n
 }
-fn calculate_e(_phi: u32) -> u32 {
-    let mut _e = 2;
-    while _e < _phi {
-        if gcd(_e, _phi) == 1 {
+fn calculate_e(phi: u32) -> u32 {
+    let mut e = 2;
+    while e < phi {
+        if gcd(e, phi) == 1 {
             break;
         } else {
-            _e += 1;
+            e += 1;
         }
     }
-    _e
+    e
 }
 
-fn calculate_phi(_p: u32, _q: u32) -> u32 {
-    (_p - 1) * (_q - 1)
+fn calculate_phi(p: u32, q: u32) -> u32 {
+    (p - 1) * (q - 1)
 }
 
-fn calculate_d(_k: u32, _phi: u32, _e: u32) -> u32 {
-    (1 + (_k * _phi)) / _e
+fn calculate_d(k: u32, phi: u32, e: u32) -> u32 {
+    (1 + (k * phi)) / e
 }
 
-fn encrypt_data(_data: u32, _encrypt: u32, _n: u32) -> u32 {
-    _data.pow(_encrypt) % _n
+fn encrypt_data(data: u32, encrypt: u32, n: u32) -> u32 {
+    data.pow(encrypt) % n
 }
 
-fn decrypt_data(_encrypted_data: u32, _decrypt: u32, _n: u64) -> u64 {
-    let _pow: u64 = _encrypted_data.pow(_decrypt).into();
-    _pow % _n
+fn decrypt_data(encrypted_data: u32, decrypt: u32, n: u64) -> u64 {
+    let pow: u64 = encrypted_data.pow(decrypt).into();
+    pow % n
 }
 
 #[cfg(test)]
@@ -72,46 +73,46 @@ mod tests {
     fn test_encrypt_decrypt_0() {
         // Select two primes, P and Q
         // For now they have to be very little, otherwise decryption fails. This is demonstrated by tests.
-        let _p = 3;
-        let _q = 5;
+        let p = 3;
+        let q = 5;
         // FIXME what is a good strategy to choose k?
-        let _k = 4;
+        let k = 4;
         // The data we want to send
-        let _data = 12;
+        let data = 12;
 
         // Calculate modulus 'n'
-        let _n = _p * _q;
+        let n = p * q;
         // Calculate the totient:
         // the number of positive integers smaller than n which are coprime to n
-        let _phi = calculate_phi(_p, _q);
+        let phi = calculate_phi(p, q);
         //Calculate the public and private key exponents
-        let _e = calculate_e(_phi);
-        let _d = calculate_d(_k, _phi, _e);
+        let e = calculate_e(phi);
+        let d = calculate_d(k, phi, e);
 
-        let _encrypted_data = encrypt_data(_data, _e, _n);
-        let _decrypted_data = decrypt_data(_encrypted_data, _d, _n.into());
+        let encrypted_data = encrypt_data(data, e, n);
+        let decrypted_data = decrypt_data(encrypted_data, d, n.into());
 
-        assert_eq!(3, _encrypted_data);
-        assert_eq!(12, _decrypted_data);
+        assert_eq!(3, encrypted_data);
+        assert_eq!(12, decrypted_data);
     }
 
     #[test]
     fn test_encrypt_decrypt_1() {
-        let _p = 3;
-        let _q = 7;
-        let _k = 7;
-        let _data = 12;
+        let p = 3;
+        let q = 7;
+        let k = 7;
+        let data = 12;
 
-        let _phi = calculate_phi(_p, _q);
-        let _e = calculate_e(_phi);
-        let _d = calculate_d(_k, _phi, _e);
-        let _n = _p * _q;
+        let phi = calculate_phi(p, q);
+        let e = calculate_e(phi);
+        let d = calculate_d(k, phi, e);
+        let n = p * q;
 
-        let _encrypted_data = encrypt_data(_data, _e, _n);
-        let _decrypted_data = decrypt_data(_encrypted_data, _d, _n.into());
+        let encrypted_data = encrypt_data(data, e, n);
+        let decrypted_data = decrypt_data(encrypted_data, d, n.into());
 
-        assert_eq!(3, _encrypted_data);
-        assert_eq!(12, _decrypted_data);
+        assert_eq!(3, encrypted_data);
+        assert_eq!(12, decrypted_data);
     }
 
     #[test]
@@ -134,11 +135,11 @@ mod tests {
 
     #[test]
     fn test_calculate_e_d() {
-        let _phi = 8;
-        let _e = calculate_e(_phi);
-        assert_eq!(3, _e);
-        let _d = calculate_d(2, _phi, _e);
-        assert_eq!(5, _d);
+        let phi = 8;
+        let e = calculate_e(phi);
+        assert_eq!(3, e);
+        let d = calculate_d(2, phi, e);
+        assert_eq!(5, d);
     }
 
     #[test]
