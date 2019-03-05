@@ -19,7 +19,7 @@ fn main() {
     let d = calculate_d(k, phi, e);
     let n = p * q;
 
-    let encrypted_data = encrypt_data(data, e, n);
+    let encrypted_data :u64 = encrypt_data(data, e, n).into();
     let decrypted_data = decrypt_data(encrypted_data, d, n.into());
 
     println!("Encrypted data:{}", encrypted_data);
@@ -58,9 +58,20 @@ fn encrypt_data(data: u32, encrypt: u32, n: u32) -> u32 {
     data.pow(encrypt) % n
 }
 
-fn decrypt_data(encrypted_data: u32, decrypt: u32, n: u64) -> u64 {
-    let pow: u64 = encrypted_data.pow(decrypt).into();
-    pow % n
+fn decrypt_data(encrypted_data: u64, decrypt: u32, n: u64) -> u64 {
+    // optimizing the modular exponentiation for low memory usage
+    // we need as an endresult (encrypted_data^decrypt)%n
+    // c % m = (a*b) % m = ((a%m) * (b%m)) % m
+    //let pow: u64 = encrypted_data.pow(decrypt).into();
+    //pow % n
+    let mut decrypted_data: u64 = 1;
+    let mut decrypt_index = 0;
+    while decrypt_index < decrypt {
+        decrypted_data = (decrypted_data * encrypted_data) % n;
+        decrypt_index += 1;
+    }
+
+    decrypted_data
 }
 
 #[cfg(test)]
@@ -89,7 +100,7 @@ mod tests {
         let e = calculate_e(phi);
         let d = calculate_d(k, phi, e);
 
-        let encrypted_data = encrypt_data(data, e, n);
+        let encrypted_data :u64 = encrypt_data(data, e, n).into();
         let decrypted_data = decrypt_data(encrypted_data, d, n.into());
 
         assert_eq!(3, encrypted_data);
@@ -108,7 +119,7 @@ mod tests {
         let d = calculate_d(k, phi, e);
         let n = p * q;
 
-        let encrypted_data = encrypt_data(data, e, n);
+        let encrypted_data :u64 = encrypt_data(data, e, n).into();
         let decrypted_data = decrypt_data(encrypted_data, d, n.into());
 
         assert_eq!(3, encrypted_data);
@@ -153,14 +164,12 @@ mod tests {
     }
 
     #[test]
-    fn test_decrypt() {
+    fn test_decrypt_0() {
         assert_eq!(12, decrypt_data(3, 5, 21));
     }
 
     #[test]
-    #[should_panic]
-    fn decrypter_dies_on_large_numbers() {
-        //thread '...' panicked at 'attempt to multiply with overflow'
+    fn test_decrypt_1() {
         //p,q = 53, 59
         assert_eq!(12, decrypt_data(1728, 2011, 3127));
     }
