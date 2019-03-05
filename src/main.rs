@@ -19,7 +19,7 @@ fn main() {
     let d = calculate_d(k, phi, e);
     let n = p * q;
 
-    let encrypted_data :u64 = encrypt_data(data, e, n).into();
+    let encrypted_data: u64 = encrypt_data(data, e, n).into();
     let decrypted_data = decrypt_data(encrypted_data, d, n.into());
 
     println!("Encrypted data:{}", encrypted_data);
@@ -62,8 +62,6 @@ fn decrypt_data(encrypted_data: u64, decrypt: u32, n: u64) -> u64 {
     // optimizing the modular exponentiation for low memory usage
     // we need as an endresult (encrypted_data^decrypt)%n
     // c % m = (a*b) % m = ((a%m) * (b%m)) % m
-    //let pow: u64 = encrypted_data.pow(decrypt).into();
-    //pow % n
     let mut decrypted_data: u64 = 1;
     let mut decrypt_index = 0;
     while decrypt_index < decrypt {
@@ -100,7 +98,7 @@ mod tests {
         let e = calculate_e(phi);
         let d = calculate_d(k, phi, e);
 
-        let encrypted_data :u64 = encrypt_data(data, e, n).into();
+        let encrypted_data: u64 = encrypt_data(data, e, n).into();
         let decrypted_data = decrypt_data(encrypted_data, d, n.into());
 
         assert_eq!(3, encrypted_data);
@@ -119,11 +117,30 @@ mod tests {
         let d = calculate_d(k, phi, e);
         let n = p * q;
 
-        let encrypted_data :u64 = encrypt_data(data, e, n).into();
+        let encrypted_data: u64 = encrypt_data(data, e, n).into();
         let decrypted_data = decrypt_data(encrypted_data, d, n.into());
 
         assert_eq!(3, encrypted_data);
         assert_eq!(12, decrypted_data);
+    }
+
+    #[test]
+    fn test_encrypt_decrypt_2() {
+        let p = 5;
+        let q = 7;
+        let k = 1;
+        let data = 14;
+
+        let phi = calculate_phi(p, q);
+        let e = calculate_e(phi);
+        let d = calculate_d(k, phi, e);
+        let n = p * q;
+
+        let encrypted_data: u64 = encrypt_data(data, e, n).into();
+        let decrypted_data = decrypt_data(encrypted_data, d, n.into());
+
+        assert_eq!(14, encrypted_data);
+        assert_eq!(14, decrypted_data);
     }
 
     #[test]
@@ -172,12 +189,5 @@ mod tests {
     fn test_decrypt_1() {
         //p,q = 53, 59
         assert_eq!(12, decrypt_data(1728, 2011, 3127));
-    }
-
-    #[test]
-    #[should_panic]
-    fn decrypter_dies_on_notsolarge_numbers() {
-        //p, q = 5, 7
-        assert_eq!(12, decrypt_data(17, 9, 35));
     }
 }
