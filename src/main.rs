@@ -1,3 +1,7 @@
+#![allow(clippy::cargo)]
+#![allow(clippy::nursery)]
+#![allow(clippy::pedantic)]
+
 use num_integer::gcd;
 use std::io;
 
