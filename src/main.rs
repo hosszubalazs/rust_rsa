@@ -15,12 +15,12 @@ fn main() {
     let data = read_number_from_user();
 
     let phi = calculate_phi(p, q);
-    let e = calculate_e(phi);
-    let d = calculate_d(k, phi, e);
+    let e_public_exponent= calculate_e(phi);
+    let d_private_exponent= calculate_d(k, phi, e_public_exponent);
     let n = p * q;
 
-    let encrypted_data: u64 = encrypt_data(data, e, n).into();
-    let decrypted_data = decrypt_data(encrypted_data, d, n.into());
+    let encrypted_data: u64 = encrypt_data(data, e_public_exponent,  n).into();
+    let decrypted_data = decrypt_data(encrypted_data, d_private_exponent,  n.into());
 
     println!("Encrypted data:{}", encrypted_data);
     println!("Decrypted data:{}", decrypted_data);
@@ -35,15 +35,15 @@ fn read_number_from_user() -> u32 {
     n
 }
 fn calculate_e(phi: u32) -> u32 {
-    let mut e = 2;
-    while e < phi {
-        if gcd(e, phi) == 1 {
+    let mut e_public_exponent= 2;
+    while e_public_exponent< phi {
+        if gcd(e_public_exponent, phi) == 1 {
             break;
         } else {
-            e += 1;
+            e_public_exponent+= 1;
         }
     }
-    e
+    e_public_exponent
 }
 
 fn calculate_phi(p: u32, q: u32) -> u32 {
@@ -95,11 +95,11 @@ mod tests {
         // the number of positive integers smaller than n which are coprime to n
         let phi = calculate_phi(p, q);
         //Calculate the public and private key exponents
-        let e = calculate_e(phi);
-        let d = calculate_d(k, phi, e);
+        let e_public_exponent= calculate_e(phi);
+        let d_private_exponent= calculate_d(k, phi, e_public_exponent);
 
-        let encrypted_data: u64 = encrypt_data(data, e, n).into();
-        let decrypted_data = decrypt_data(encrypted_data, d, n.into());
+        let encrypted_data: u64 = encrypt_data(data, e_public_exponent, n).into();
+        let decrypted_data = decrypt_data(encrypted_data, d_private_exponent, n.into());
 
         assert_eq!(3, encrypted_data);
         assert_eq!(12, decrypted_data);
@@ -113,12 +113,12 @@ mod tests {
         let data = 12;
 
         let phi = calculate_phi(p, q);
-        let e = calculate_e(phi);
-        let d = calculate_d(k, phi, e);
+        let e_public_exponent= calculate_e(phi);
+        let d_private_exponent= calculate_d(k, phi, e_public_exponent);
         let n = p * q;
 
-        let encrypted_data: u64 = encrypt_data(data, e, n).into();
-        let decrypted_data = decrypt_data(encrypted_data, d, n.into());
+        let encrypted_data: u64 = encrypt_data(data, e_public_exponent, n).into();
+        let decrypted_data = decrypt_data(encrypted_data, d_private_exponent, n.into());
 
         assert_eq!(3, encrypted_data);
         assert_eq!(12, decrypted_data);
@@ -132,12 +132,12 @@ mod tests {
         let data = 14;
 
         let phi = calculate_phi(p, q);
-        let e = calculate_e(phi);
-        let d = calculate_d(k, phi, e);
+        let e_public_exponent = calculate_e(phi);
+        let d_private_exponent= calculate_d(k, phi, e_public_exponent);
         let n = p * q;
 
-        let encrypted_data: u64 = encrypt_data(data, e, n).into();
-        let decrypted_data = decrypt_data(encrypted_data, d, n.into());
+        let encrypted_data: u64 = encrypt_data(data, e_public_exponent, n).into();
+        let decrypted_data = decrypt_data(encrypted_data, d_private_exponent, n.into());
 
         assert_eq!(14, encrypted_data);
         assert_eq!(14, decrypted_data);
@@ -151,12 +151,12 @@ mod tests {
         let data = 17;
 
         let phi = calculate_phi(p, q);
-        let e = calculate_e(phi);
-        let d = calculate_d(k, phi, e);
+        let e_public_exponent = calculate_e(phi);
+        let d_private_exponent= calculate_d(k, phi, e_public_exponent);
         let n = p * q;
 
-        let encrypted_data: u64 = encrypt_data(data, e, n).into();
-        let decrypted_data = decrypt_data(encrypted_data, d, n.into());
+        let encrypted_data: u64 = encrypt_data(data, e_public_exponent, n).into();
+        let decrypted_data = decrypt_data(encrypted_data, d_private_exponent, n.into());
 
         assert_eq!(1786, encrypted_data);
         assert_eq!(17, decrypted_data);
@@ -183,10 +183,10 @@ mod tests {
     #[test]
     fn test_calculate_e_d() {
         let phi = 8;
-        let e = calculate_e(phi);
-        assert_eq!(3, e);
-        let d = calculate_d(2, phi, e);
-        assert_eq!(5, d);
+        let e_public_exponent= calculate_e(phi);
+        assert_eq!(3, e_public_exponent);
+        let d_private_exponent= calculate_d(2, phi, e_public_exponent);
+        assert_eq!(5, d_private_exponent);
     }
 
     #[test]
