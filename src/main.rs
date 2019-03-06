@@ -23,8 +23,8 @@ fn main() {
     let d_private_exponent = calculate_d(k, phi, e_public_exponent);
     let n = p * q;
 
-    let encrypted_data: u64 = encrypt_data(data, e_public_exponent, n).into();
-    let decrypted_data = decrypt_data(encrypted_data, d_private_exponent, n.into());
+    let encrypted_data = encrypt_data(data, e_public_exponent, n);
+    let decrypted_data = decrypt_data(encrypted_data, d_private_exponent, n);
 
     println!("Encrypted data:{}", encrypted_data);
     println!("Decrypted data:{}", decrypted_data);
@@ -62,11 +62,11 @@ fn encrypt_data(data: u32, encrypt: u32, n: u32) -> u32 {
     data.pow(encrypt) % n
 }
 
-fn decrypt_data(encrypted_data: u64, decrypt: u32, n: u64) -> u64 {
+fn decrypt_data(encrypted_data: u32, decrypt: u32, n: u32) -> u32 {
     // optimizing the modular exponentiation for low memory usage
     // we need as an endresult (encrypted_data^decrypt)%n
     // c % m = (a*b) % m = ((a%m) * (b%m)) % m
-    let mut decrypted_data: u64 = 1;
+    let mut decrypted_data: u32 = 1;
     let mut decrypt_index = 0;
     while decrypt_index < decrypt {
         decrypted_data = (decrypted_data * encrypted_data) % n;
@@ -92,10 +92,10 @@ mod tests {
         let e_public_exponent = calculate_e(phi);
         let d_private_exponent = calculate_d(k, phi, e_public_exponent);
 
-        let encrypted_data = encrypt_data(data, e_public_exponent, n).into();
-        let decrypted_data = decrypt_data(encrypted_data, d_private_exponent, n.into());
+        let encrypted_data = encrypt_data(data, e_public_exponent, n);
+        let decrypted_data = decrypt_data(encrypted_data, d_private_exponent, n);
 
-        assert_eq!(u64::from(data), decrypted_data);
+        assert_eq!(data, decrypted_data);
     }
 
     #[test]
