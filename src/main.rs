@@ -95,7 +95,7 @@ mod tests {
         let encrypted_data = encrypt_data(data, e_public_exponent, n).into();
         let decrypted_data = decrypt_data(encrypted_data, d_private_exponent, n.into());
 
-        assert_eq!(data as u64, decrypted_data);
+        assert_eq!(u64::from(data), decrypted_data);
     }
 
     #[test]
