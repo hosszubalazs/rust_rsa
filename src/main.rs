@@ -48,6 +48,9 @@ fn calculate_e(phi: u32) -> u32 {
             e_public_exponent += 1;
         }
     }
+    if e_public_exponent == phi {
+        panic!("No public exponent could be found for phi={}", phi);
+    }
     e_public_exponent
 }
 
@@ -129,7 +132,7 @@ mod tests {
     fn test_calculate_phi_0() {
         assert_eq!(8, calculate_phi(3, 5));
     }
-    
+
     #[test]
     fn test_calculate_phi_1() {
         assert_eq!(12, calculate_phi(3, 7));
