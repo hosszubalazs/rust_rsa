@@ -55,6 +55,7 @@ fn calculate_phi(p: u32, q: u32) -> u32 {
 }
 
 fn calculate_d(k: u32, phi: u32, e: u32) -> u32 {
+    // FIXME how to choose k? :'(
     (1 + (k * phi)) / e
 }
 
