@@ -54,6 +54,39 @@ fn calculate_e(phi: u32) -> u32 {
     e_public_exponent
 }
 
+fn calculate_e_2(phi: u32, d: u32, n: f64) -> u32 {
+    println!("phi = {}", phi);
+
+    println!("d = {}", d);
+
+    let x0 = phi;
+    let x1 = d;
+    let x2 = x0 % x1;
+    let x3 = x1 % x2;
+    assert_eq!(x3, 1);
+    assert_eq!(gcd(x0, x1), x3);
+
+    let x4 = x2 % x3;
+    assert_eq!(x4, 0);
+
+    assert_eq!(gcd(x0, x1), 0);
+
+    let k = 4;
+
+    println!("phi mod d = {}", phi % d);
+
+    let e_public_exponent = gcd(phi, d);
+    println!("n = {}", n);
+
+    let test = n.log2().ceil();
+    println!("test = {}", test);
+
+    if e_public_exponent < test as u32 {
+        panic!("e={} not big enough ({})", e_public_exponent, test);
+    }
+    e_public_exponent
+}
+
 fn calculate_phi(p: u32, q: u32) -> u32 {
     (p - 1) * (q - 1)
 }
@@ -121,6 +154,36 @@ mod tests {
     #[test]
     fn test_encrypt_decrypt_3() {
         test_encrypt_base(53, 59, 8, 17);
+    }
+
+    #[test]
+    fn test_encrypt_decrypt_whitepaper() {
+        // Calculate modulus 'n'
+        let p = 47;
+        let q = 59;
+        let n = p * q;
+        assert_eq!(n, 2773);
+
+        let data = 16;
+
+        // Calculate the totient:
+        // the number of positive integers smaller than n which are coprime to n
+        let phi = calculate_phi(p, q);
+        assert_eq!(phi, 2668);
+
+        //Calculate the public and private key exponents
+        let d_private_exponent = 157;
+        //by deifniton phi and d are relative primes
+        assert_eq!(gcd(d_private_exponent, phi), 1);
+
+        let e_public_exponent = calculate_e_2(phi, d_private_exponent, n.into());
+        //  let d_private_exponent = calculate_d(k, phi, e_public_exponent);
+        assert_eq!(e_public_exponent, 17);
+
+        let encrypted_data = encrypt_data(data, e_public_exponent, n);
+        let decrypted_data = decrypt_data(encrypted_data, d_private_exponent, n);
+
+        assert_eq!(data, decrypted_data);
     }
 
     #[test]
