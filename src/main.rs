@@ -4,6 +4,7 @@
 
 use num_integer::gcd;
 use std::io;
+mod kid_rsa;
 
 fn main() {
     println!("Welcome to my small RSA coder / decoder");
