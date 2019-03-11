@@ -94,6 +94,7 @@ mod tests {
             let bob = new_kid_rsa_user();
             let eve = new_kid_rsa_user();
 
+            // Must be smaller then n
             let data = 123;
 
             // Alice sings the data with Bob's public key, and sends it as a public message
@@ -139,7 +140,7 @@ mod tests {
             let bob = new_kid_rsa_user();
             let eve = new_kid_rsa_user();
 
-            // FIXME increasing this makes testing unstable, why?
+            // Must be smaller then n
             let data = 100;
             let data_signed_by_alice = alice.transform_with_private_key(data);
 
@@ -174,8 +175,8 @@ mod tests {
         let bob = new_kid_rsa_user();
         let eve = new_kid_rsa_user();
 
-        // FIXME increasing data size makes testing unstable, why?
-        let data = 10;
+        // Must be smaller then n
+        let data = 100;
 
         // Encryption by Alice
         let data_signed_by_alice = alice.transform_with_private_key(data);
