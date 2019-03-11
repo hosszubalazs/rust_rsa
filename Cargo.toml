@@ -6,3 +6,4 @@ edition = "2018"
 
 [dependencies]
 num-integer = "0.1"
+rand = "0.6.5"
