@@ -1,6 +1,11 @@
 #![allow(clippy::cargo)]
 #![allow(clippy::nursery)]
 #![allow(clippy::pedantic)]
+#![allow(unused_imports)]
+#![allow(dead_code)]
+#![allow(unused_variables)]
+
+
 
 mod kid_rsa;
 mod rsa;
