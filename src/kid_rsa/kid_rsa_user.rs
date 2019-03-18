@@ -1,13 +1,13 @@
 // rand use to generate keys for the agents
 use rand::Rng;
 
-pub struct kid_rsa_user {
+pub struct KidRsaUser {
     private_key: u64,
     pub public_key: u64,
     pub n: u64,
 }
 
-impl kid_rsa_user {
+impl KidRsaUser {
     fn transform_data_with_key(&self, data: u64, n: u64, key: u64) -> u64 {
         if data > n {
             panic!("Data({}) must be lower than n({}) of key", data, n);
@@ -23,12 +23,12 @@ impl kid_rsa_user {
     pub fn transform_with_private_key(&self, data: u64) -> u64 {
         self.transform_data_with_key(data, self.n, self.private_key)
     }
-    pub fn transform_with_public_key_from(&self, data: u64, sender: &kid_rsa_user) -> u64 {
+    pub fn transform_with_public_key_from(&self, data: u64, sender: &KidRsaUser) -> u64 {
         self.transform_data_with_key(data, sender.n, sender.public_key)
     }
 }
 
-pub fn new_kid_rsa_user() -> kid_rsa_user {
+pub fn new_kid_rsa_user() -> KidRsaUser {
     let mut rng = rand::thread_rng();
 
     // These ranges have two major cnosequences:
@@ -75,7 +75,7 @@ pub fn new_kid_rsa_user() -> kid_rsa_user {
     // n = (public_key_exponent * private_key_exponent -1 ) / m
     n = (ax * bx * m) + (a * bx) + (ax * b) + 1;
 
-    kid_rsa_user {
+    KidRsaUser {
         private_key: private_key_exponent,
         public_key: public_key_exponent,
         n,

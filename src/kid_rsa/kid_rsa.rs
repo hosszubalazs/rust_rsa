@@ -3,7 +3,7 @@
 // Cryptography as a teaching tool
 // https://sites.math.washington.edu/~koblitz/crlogia.html
 
-use super::kid_rsa_user::kid_rsa_user;
+use super::kid_rsa_user::KidRsaUser;
 use super::kid_rsa_user::new_kid_rsa_user;
 
 use rand::Rng;
@@ -17,10 +17,10 @@ mod tests {
     // Currently we are very limited on the total possible number of agents.
     // for now this is accepted, and will be addressed.
     // For testing purposes we ignore this limitationg by forcing unique users trough generation
-    fn generate_three_users() -> (kid_rsa_user, kid_rsa_user, kid_rsa_user) {
+    fn generate_three_users() -> (KidRsaUser, KidRsaUser, KidRsaUser) {
         let alice = new_kid_rsa_user();
-        let mut bob: kid_rsa_user;
-        let mut eve: kid_rsa_user;
+        let mut bob: KidRsaUser;
+        let mut eve: KidRsaUser;
 
         while {
             bob = new_kid_rsa_user();
