@@ -28,7 +28,7 @@ mod tests {
         } {}
         while {
             eve = new_kid_rsa_user();
-            eve.public_key == alice.public_key || eve.public_key == alice.public_key
+            eve.public_key == alice.public_key || eve.public_key == bob.public_key
         } {}
         (alice, bob, eve)
     }
