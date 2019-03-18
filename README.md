@@ -13,8 +13,9 @@ A bug-ridden early implementation of the RSA-like encryption, Kid-RSA, can be fo
 
 Requirements:
 
-- The private and public key are different.
+- The private and public keys are different.
 - The message is smaller than n. The algortihm is mod n based, messages longer than n does not make sense.
+- TODO
 
 ## Development environment, runnin the code
 
@@ -26,7 +27,16 @@ Use standard `cargo` commands to build/test/run.
 
 Some resources used for this project:
 
+Algorithms:
+
 - [RSA Algorithm in Cryptography](https://www.geeksforgeeks.org/rsa-algorithm-cryptography/)
-- [Euler's totient function](https://simple.wikipedia.org/wiki/Euler%27s_totient_function)
 - [RSA Algorithm](https://simple.wikipedia.org/wiki/RSA_algorithm)
 - [Kid RSA](https://sites.math.washington.edu/~koblitz/crlogia.html)
+
+Maths:
+
+- [Euler's totient function](https://simple.wikipedia.org/wiki/Euler%27s_totient_function)
+- [Modular multiplicative inverse](https://en.wikipedia.org/wiki/Modular_multiplicative_inverse)
+- [Extended Euclidean algorithm](https://en.wikipedia.org/wiki/Extended_Euclidean_algorithm)
+- [Fermat number](https://en.wikipedia.org/wiki/Fermat_number)
+- [Coprime integers (relative primes)](https://en.wikipedia.org/wiki/Coprime_integers)
