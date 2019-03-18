@@ -40,3 +40,4 @@ Maths:
 - [Extended Euclidean algorithm](https://en.wikipedia.org/wiki/Extended_Euclidean_algorithm)
 - [Fermat number](https://en.wikipedia.org/wiki/Fermat_number)
 - [Coprime integers (relative primes)](https://en.wikipedia.org/wiki/Coprime_integers)
+- [Bézout's theorem](https://en.wikipedia.org/wiki/B%C3%A9zout%27s_theorem)
