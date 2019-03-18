@@ -57,22 +57,17 @@ pub fn new_kid_rsa_user() -> kid_rsa_user {
 
     // This is a sneaky do-while loop
     while {
-        // FIXME this bound is still very low. Find a way to solve this.
-        // The current range_upper_bound is very low. To avoid conflicting numbers,
-        // lets use this workaround
+        // Previously I seemed to have issues where any numbers of a,ax,b,bx were equal.
+        // That issue does not reproduce anymore, so I can just generate the numbers.
         a = rng.gen_range(range_lower_bound, range_upper_bound);
-        ax = rng.gen_range(range_lower_bound, range_upper_bound); // a + 1;
-        b = rng.gen_range(range_lower_bound, range_upper_bound); // ax + 1;
-        bx = rng.gen_range(range_lower_bound, range_upper_bound); // b + 1;
-
-        // previously I seemed to have issues where any numbers of a,ax,b,bx were equal.
-        // That issue does not reproduce anymore, so I can just generate the numbers
+        ax = rng.gen_range(range_lower_bound, range_upper_bound);
+        b = rng.gen_range(range_lower_bound, range_upper_bound);
+        bx = rng.gen_range(range_lower_bound, range_upper_bound);
 
         m = a * b - 1;
         public_key_exponent = ax * m + a;
         private_key_exponent = bx * m + b;
 
-        // FIXME: If the keys are equal, the algorithm breaks. Why?
         // This condition was not described in the original paper.
         public_key_exponent == private_key_exponent
     } {}

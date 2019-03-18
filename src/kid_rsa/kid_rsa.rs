@@ -8,15 +8,12 @@ use super::kid_rsa_user::new_kid_rsa_user;
 
 use rand::Rng;
 
-// The tests are not super stable
-// Please check the FIXMEs in the code for pointers on where it can possibly fail
 #[cfg(test)]
 mod tests {
     // The logic is organized into private functions outside of the test module.
     // To be able to access them, this use is needed.
     use super::*;
 
-    // FIXME:
     // Currently we are very limited on the total possible number of agents.
     // for now this is accepted, and will be addressed.
     // For testing purposes we ignore this limitationg by forcing unique users trough generation
@@ -142,10 +139,7 @@ mod tests {
 
             let alice_sent_this_and_only_bob_can_read_this =
                 bob.transform_with_public_key_from(only_bob_can_read_this, &alice);
-            assert_eq!(
-                data, alice_sent_this_and_only_bob_can_read_this,
-                "FIXME Sometimes this breaks with magic. =( "
-            );
+            assert_eq!(data, alice_sent_this_and_only_bob_can_read_this);
         }
     }
 }

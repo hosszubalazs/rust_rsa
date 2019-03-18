@@ -11,6 +11,11 @@ The solution is heavily under development and is meant for educational purposes 
 
 A bug-ridden early implementation of the RSA-like encryption, Kid-RSA, can be found in `kid_rsa.rs`. Please check the tests and the FIXME to see the current state.
 
+Requirements:
+
+- The private and public key are different.
+- The message is smaller than n. The algortihm is mod n based, messages longer than n does not make sense.
+
 ## Development environment, runnin the code
 
 Use the official guide to get your environment working: [Install Rust](https://www.rust-lang.org/tools/install)
