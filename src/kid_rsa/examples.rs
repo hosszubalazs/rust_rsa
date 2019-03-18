@@ -3,8 +3,8 @@
 // Cryptography as a teaching tool
 // https://sites.math.washington.edu/~koblitz/crlogia.html
 
-use super::kid_rsa_user::KidRsaUser;
-use super::kid_rsa_user::new_kid_rsa_user;
+use super::user::KidRsaUser;
+use super::user::new_kid_rsa_user;
 
 use rand::Rng;
 
