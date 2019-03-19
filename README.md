@@ -35,9 +35,11 @@ Algorithms:
 
 Maths:
 
+- [Modular Arithmetic](https://en.wikipedia.org/wiki/Modular_arithmetic)
+- [Fermat's Little Theorem](https://en.wikipedia.org/wiki/Fermat%27s_little_theorem)
+- [Coprime integers (relative primes)](https://en.wikipedia.org/wiki/Coprime_integers)
 - [Euler's totient function](https://simple.wikipedia.org/wiki/Euler%27s_totient_function)
 - [Modular multiplicative inverse](https://en.wikipedia.org/wiki/Modular_multiplicative_inverse)
 - [Extended Euclidean algorithm](https://en.wikipedia.org/wiki/Extended_Euclidean_algorithm)
-- [Fermat number](https://en.wikipedia.org/wiki/Fermat_number)
-- [Coprime integers (relative primes)](https://en.wikipedia.org/wiki/Coprime_integers)
 - [Bézout's theorem](https://en.wikipedia.org/wiki/B%C3%A9zout%27s_theorem)
+- [Fermat number](https://en.wikipedia.org/wiki/Fermat_number)
