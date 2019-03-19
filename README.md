@@ -25,7 +25,7 @@ Use standard `cargo` commands to build/test/run.
 
 ## Resources
 
-Some resources used for this project:
+Inventory of stuff you need to know:
 
 Algorithms:
 
@@ -43,3 +43,9 @@ Maths:
 - [Extended Euclidean algorithm](https://en.wikipedia.org/wiki/Extended_Euclidean_algorithm)
 - [Bézout's theorem](https://en.wikipedia.org/wiki/B%C3%A9zout%27s_theorem)
 - [Fermat number](https://en.wikipedia.org/wiki/Fermat_number)
+
+
+Additional learning materials:
+
+- [Introduction to Cryptography by Christof Paar](https://www.youtube.com/channel/UC1usFRN4LCMcfIV7UjHNuQg/videos?view=0&sort=da&flow=grid)
+- [PBS Infinitie Series](https://www.youtube.com/channel/UCs4aHmggTfFrpkPcWSaBN9g/videos)
